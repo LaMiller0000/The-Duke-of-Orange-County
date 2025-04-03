@@ -4,21 +4,107 @@
 script/source = "extends KinematicBody
 
 export var speed: float = 10
+export var on: bool = true
+export var vector3: Vector3 #will be the saved unless I decide otherwise
+var move_direction := Vector3.ZERO
+var _velocity := Vector3.ZERO
+enum state {TARGETING, FREECAM}
+var _snap_vector := Vector3.DOWN
+export var STATED = state.FREECAM
+export var target: String
+var gravity = 9.8
 
 func _physics_process(_delta: float) -> void:
-	var wishdir = Vector3()
+	if on:
+		\"\"\"
+		var wishdir = Vector3()
 
-	if Input.is_key_pressed(KEY_A):
-		wishdir += Vector3.LEFT
-	if Input.is_key_pressed(KEY_D):
-		wishdir += Vector3.RIGHT
-	if Input.is_key_pressed(KEY_W):
-		wishdir += Vector3.FORWARD
-	if Input.is_key_pressed(KEY_S):
-		wishdir += Vector3.BACK
+		if Input.is_key_pressed(KEY_A):
+			wishdir += Vector3.LEFT
+		if Input.is_key_pressed(KEY_D):
+			wishdir += Vector3.RIGHT
+		if Input.is_key_pressed(KEY_W):
+			wishdir += Vector3.FORWARD
+		if Input.is_key_pressed(KEY_S):
+			wishdir += Vector3.BACK
 
-	wishdir = wishdir.normalized()
-	move_and_slide(wishdir * speed)
+		wishdir = wishdir.normalized()
+		move_and_slide(wishdir * speed)
+		\"\"\"
+		###############################
+		match STATED:
+			state.FREECAM:
+				print(state.FREECAM)
+				print(\"FREECAM\")
+				move_direction.z = Input.get_action_strength(\"down\") - Input.get_action_strength(\"forward\")
+				move_direction.x = Input.get_action_strength(\"right\") - Input.get_action_strength(\"left\")
+				if _velocity.length()  > 0.2:
+					\"\"\"
+					var look_direction = Vector2(_velocity.z, _velocity.x)
+					_model.rotation.y = look_direction.angle()
+					$CollisionShape.rotation.y = look_direction.angle()
+					eyes.rotation.y = look_direction.angle()
+					move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized() 
+					\"\"\"
+				_velocity.x = move_direction.x * speed
+				_velocity.z = move_direction.z * speed
+				_velocity.y -= gravity * _delta
+				_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.ZERO)
+				
+				
+				
+				
+			state.TARGETING:
+				print(state.TARGETING)
+				print(\"TARGETING\")
+				move_direction.z = Input.get_action_strength(\"forward\") - Input.get_action_strength(\"down\")
+				move_direction.x = Input.get_action_strength(\"left\") - Input.get_action_strength(\"right\")
+				
+				
+				
+			_:
+				print(\"NOTHING\")
+		
+
+
+#this is the code from misery go through and make this work for this project
+\"\"\"
+
+	var move_direction := Vector3.ZERO
+	var initialRot = _model.rotation_degrees.y
+	if targeting == true and enemy != null: #and enemy.Health > 0:
+		if (enemy.Health < 1 and is_instance_valid(enemy) and enemy != null):
+			enemy = null
+			targeting = false
+		else:
+			#print(\"Targeting\")
+			eyes.look_at(enemy.global_transform.origin, Vector3.DOWN)
+			_model.rotation.y = eyes.rotation.y
+			$CollisionShape.rotation.y = eyes.rotation.y
+			move_direction.z = Input.get_action_strength(\"foward\") - Input.get_action_strength(\"down\")
+			move_direction.x = Input.get_action_strength(\"left\")  - Input.get_action_strength(\"right\")
+			move_direction = move_direction.rotated(Vector3.UP, eyes.rotation.y).normalized() 
+			_velocity.x = move_direction.x * speed
+			_velocity.z = move_direction.z * speed
+			_velocity.y -= gravity * delta
+			_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.ZERO)
+	else:
+		_spring_arm.mouse_sensitivity = 0.05
+		_spring_arm.test = true
+		self.rotation_degrees.y = 180
+		move_direction.z = Input.get_action_strength(\"down\") - Input.get_action_strength(\"foward\")
+		move_direction.x = Input.get_action_strength(\"right\") - Input.get_action_strength(\"left\")
+		if _velocity.length()  > 0.2:
+			var look_direction = Vector2(_velocity.z, _velocity.x)
+			_model.rotation.y = look_direction.angle()
+			$CollisionShape.rotation.y = look_direction.angle()
+			eyes.rotation.y = look_direction.angle()
+			move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized() 
+		_velocity.x = move_direction.x * speed
+		_velocity.z = move_direction.z * speed
+		_velocity.y -= gravity * delta
+		_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.ZERO)
+\"\"\"
 "
 
 [sub_resource type="CapsuleShape" id=1]
