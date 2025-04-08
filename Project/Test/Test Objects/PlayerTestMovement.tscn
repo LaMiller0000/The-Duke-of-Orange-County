@@ -1,70 +1,41 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Test/Test Objects/TestSpringArm.gd" type="Script" id=1]
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends KinematicBody
-
-export var speed: float = 10
-export var on: bool = true
-export var vector3: Vector3 #will be the saved unless I decide otherwise
-var move_direction := Vector3.ZERO
+var stamina = 100
+export var speed = [10, 20]
+var activeSpeed = 0
 var _velocity := Vector3.ZERO
 enum state {TARGETING, FREECAM}
 var _snap_vector := Vector3.DOWN
 export var STATED = state.FREECAM
 export var target: String
 var gravity = 9.8
+onready var _spring_arm: SpringArm = $SpringArm
 
 func _physics_process(_delta: float) -> void:
-	if on:
-		\"\"\"
-		var wishdir = Vector3()
-
-		if Input.is_key_pressed(KEY_A):
-			wishdir += Vector3.LEFT
-		if Input.is_key_pressed(KEY_D):
-			wishdir += Vector3.RIGHT
-		if Input.is_key_pressed(KEY_W):
-			wishdir += Vector3.FORWARD
-		if Input.is_key_pressed(KEY_S):
-			wishdir += Vector3.BACK
-
-		wishdir = wishdir.normalized()
-		move_and_slide(wishdir * speed)
-		\"\"\"
-		###############################
-		match STATED:
-			state.FREECAM:
-				print(state.FREECAM)
-				print(\"FREECAM\")
-				move_direction.z = Input.get_action_strength(\"down\") - Input.get_action_strength(\"forward\")
-				move_direction.x = Input.get_action_strength(\"right\") - Input.get_action_strength(\"left\")
-				if _velocity.length()  > 0.2:
-					\"\"\"
-					var look_direction = Vector2(_velocity.z, _velocity.x)
-					_model.rotation.y = look_direction.angle()
-					$CollisionShape.rotation.y = look_direction.angle()
-					eyes.rotation.y = look_direction.angle()
-					move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized() 
-					\"\"\"
-				_velocity.x = move_direction.x * speed
-				_velocity.z = move_direction.z * speed
-				_velocity.y -= gravity * _delta
-				_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.ZERO)
-				
-				
-				
-				
-			state.TARGETING:
-				print(state.TARGETING)
-				print(\"TARGETING\")
-				move_direction.z = Input.get_action_strength(\"forward\") - Input.get_action_strength(\"down\")
-				move_direction.x = Input.get_action_strength(\"left\") - Input.get_action_strength(\"right\")
-				
-				
-				
-			_:
-				print(\"NOTHING\")
+	if Input.is_action_pressed(\"ui_accept\"):
+		activeSpeed = 1
+	else:
+		activeSpeed = 0
 		
+	_velocity.y -= gravity * _delta
+	_spring_arm.translation = translation
+	match STATED:
+		state.FREECAM:
+			_spring_arm.mouse_sensitivity = 0.05
+			_velocity.x = Input.get_action_strength(\"right\") - Input.get_action_strength(\"left\")
+			_velocity.z = Input.get_action_strength(\"down\") - Input.get_action_strength(\"forward\")
+			
+			_velocity = _velocity.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
+		state.TARGETING:
+			_velocity.z = Input.get_action_strength(\"forward\") - Input.get_action_strength(\"down\")
+			_velocity.x = Input.get_action_strength(\"left\") - Input.get_action_strength(\"right\")
+		_:
+			print(\"NOTHING\")
+	_velocity = move_and_slide_with_snap(_velocity.normalized() * speed[activeSpeed], _snap_vector, Vector3.ZERO)
 
 
 #this is the code from misery go through and make this work for this project
@@ -111,6 +82,8 @@ func _physics_process(_delta: float) -> void:
 
 [sub_resource type="CapsuleMesh" id=2]
 
+[sub_resource type="RayShape" id=4]
+
 [node name="Root" type="Spatial"]
 transform = Transform( 1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0 )
 
@@ -123,3 +96,12 @@ shape = SubResource( 1 )
 
 [node name="CSGMesh" type="CSGMesh" parent="PlayerMovementBody/CollisionShape"]
 mesh = SubResource( 2 )
+
+[node name="SpringArm" type="SpringArm" parent="PlayerMovementBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
+shape = SubResource( 4 )
+spring_length = 5.0
+margin = 0.5
+script = ExtResource( 1 )
+
+[node name="Camera" type="Camera" parent="PlayerMovementBody/SpringArm"]
