@@ -1,107 +1,76 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://b6bu7uoeohwdj"]
 
-[ext_resource path="res://Test/Test Objects/TestSpringArm.gd" type="Script" id=1]
+[ext_resource type="Script" uid="uid://y21p2rpis0rp" path="res://Test/Test Objects/TestSpringArm.gd" id="1"]
 
-[sub_resource type="GDScript" id=3]
-script/source = "extends KinematicBody
+[sub_resource type="GDScript" id="3"]
+script/source = "extends CharacterBody3D
+
+@onready var _spring_arm: SpringArm3D = $SpringArm3D
+@onready var eyes: Node3D = $Eyes
 var stamina = 100
-export var speed = [10, 20]
 var activeSpeed = 0
-var _velocity := Vector3.ZERO
-enum state {TARGETING, FREECAM}
-var _snap_vector := Vector3.DOWN
-export var STATED = state.FREECAM
-export var target: String
 var gravity = 9.8
-onready var _spring_arm: SpringArm = $SpringArm
+var target = null
+@export var speed = [10, 20]
+var _velocity := Vector3.ZERO
+var _snap_vector := Vector3.DOWN
+enum state {TARGETING, FREECAM}
+@export var STATED = state.FREECAM
 
 func _physics_process(_delta: float) -> void:
-	if Input.is_action_pressed(\"ui_accept\"):
+	if Input.is_action_pressed(\"ui_accept\") && stamina > 0:
 		activeSpeed = 1
 	else:
 		activeSpeed = 0
-		
-	_velocity.y -= gravity * _delta
-	_spring_arm.translation = translation
 	match STATED:
 		state.FREECAM:
-			_spring_arm.mouse_sensitivity = 0.05
 			_velocity.x = Input.get_action_strength(\"right\") - Input.get_action_strength(\"left\")
 			_velocity.z = Input.get_action_strength(\"down\") - Input.get_action_strength(\"forward\")
-			
 			_velocity = _velocity.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
 		state.TARGETING:
 			_velocity.z = Input.get_action_strength(\"forward\") - Input.get_action_strength(\"down\")
 			_velocity.x = Input.get_action_strength(\"left\") - Input.get_action_strength(\"right\")
+			eyes.look_at(target.global_transform.origin, Vector3.DOWN)
+			_velocity = _velocity.rotated(Vector3.UP, eyes.rotation.y).normalized()
 		_:
 			print(\"NOTHING\")
-	_velocity = move_and_slide_with_snap(_velocity.normalized() * speed[activeSpeed], _snap_vector, Vector3.ZERO)
-
-
-#this is the code from misery go through and make this work for this project
-\"\"\"
-
-	var move_direction := Vector3.ZERO
-	var initialRot = _model.rotation_degrees.y
-	if targeting == true and enemy != null: #and enemy.Health > 0:
-		if (enemy.Health < 1 and is_instance_valid(enemy) and enemy != null):
-			enemy = null
-			targeting = false
-		else:
-			#print(\"Targeting\")
-			eyes.look_at(enemy.global_transform.origin, Vector3.DOWN)
-			_model.rotation.y = eyes.rotation.y
-			$CollisionShape.rotation.y = eyes.rotation.y
-			move_direction.z = Input.get_action_strength(\"foward\") - Input.get_action_strength(\"down\")
-			move_direction.x = Input.get_action_strength(\"left\")  - Input.get_action_strength(\"right\")
-			move_direction = move_direction.rotated(Vector3.UP, eyes.rotation.y).normalized() 
-			_velocity.x = move_direction.x * speed
-			_velocity.z = move_direction.z * speed
-			_velocity.y -= gravity * delta
-			_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.ZERO)
-	else:
-		_spring_arm.mouse_sensitivity = 0.05
-		_spring_arm.test = true
-		self.rotation_degrees.y = 180
-		move_direction.z = Input.get_action_strength(\"down\") - Input.get_action_strength(\"foward\")
-		move_direction.x = Input.get_action_strength(\"right\") - Input.get_action_strength(\"left\")
-		if _velocity.length()  > 0.2:
-			var look_direction = Vector2(_velocity.z, _velocity.x)
-			_model.rotation.y = look_direction.angle()
-			$CollisionShape.rotation.y = look_direction.angle()
-			eyes.rotation.y = look_direction.angle()
-			move_direction = move_direction.rotated(Vector3.UP, _spring_arm.rotation.y).normalized() 
-		_velocity.x = move_direction.x * speed
-		_velocity.z = move_direction.z * speed
-		_velocity.y -= gravity * delta
-		_velocity = move_and_slide_with_snap(_velocity, _snap_vector, Vector3.ZERO)
-\"\"\"
+	_velocity.y -= gravity * _delta
+	set_velocity(_velocity.normalized() * speed[activeSpeed])
+	# TODOConverter3To4 looks that snap in Godot 4 is float, not vector like in Godot 3 - previous value `_snap_vector`
+	set_up_direction(Vector3.ZERO)
+	move_and_slide()
+	_velocity = velocity
+	_spring_arm.position = position
 "
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="CapsuleShape3D" id="1"]
 
-[sub_resource type="CapsuleMesh" id=2]
+[sub_resource type="CapsuleMesh" id="2"]
 
-[sub_resource type="RayShape" id=4]
+[sub_resource type="SeparationRayShape3D" id="4"]
 
-[node name="Root" type="Spatial"]
-transform = Transform( 1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0 )
+[node name="Root" type="Node3D"]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0)
 
-[node name="PlayerMovementBody" type="KinematicBody" parent="."]
-script = SubResource( 3 )
+[node name="PlayerMovementBody" type="CharacterBody3D" parent="."]
+script = SubResource("3")
 
-[node name="CollisionShape" type="CollisionShape" parent="PlayerMovementBody"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
-shape = SubResource( 1 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerMovementBody"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("1")
 
-[node name="CSGMesh" type="CSGMesh" parent="PlayerMovementBody/CollisionShape"]
-mesh = SubResource( 2 )
+[node name="CSGMesh3D" type="CSGMesh3D" parent="PlayerMovementBody/CollisionShape3D"]
+mesh = SubResource("2")
 
-[node name="SpringArm" type="SpringArm" parent="PlayerMovementBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
-shape = SubResource( 4 )
-spring_length = 5.0
+[node name="SpringArm3D" type="SpringArm3D" parent="PlayerMovementBody"]
+transform = Transform3D(1, 0, 0, 0, 0.866026, 0.5, 0, -0.5, 0.866026, 0, 0, 5)
+shape = SubResource("4")
+spring_length = 12.0
 margin = 0.5
-script = ExtResource( 1 )
+script = ExtResource("1")
 
-[node name="Camera" type="Camera" parent="PlayerMovementBody/SpringArm"]
+[node name="Camera3D" type="Camera3D" parent="PlayerMovementBody/SpringArm3D"]
+current = true
+fov = 90.0
+
+[node name="Eyes" type="Node3D" parent="PlayerMovementBody"]
