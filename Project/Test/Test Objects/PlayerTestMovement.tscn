@@ -10,8 +10,8 @@ script/source = "extends CharacterBody3D
 var stamina = 100
 var activeSpeed = 0
 var gravity = 9.8
-var target = null
-@export var speed = [10, 20]
+@export var target = Node
+@export var speed: int = 10
 var _velocity := Vector3.ZERO
 var _snap_vector := Vector3.DOWN
 enum state {TARGETING, FREECAM}
@@ -22,21 +22,19 @@ func _physics_process(_delta: float) -> void:
 		activeSpeed = 1
 	else:
 		activeSpeed = 0
+	_velocity.x = Input.get_action_strength(\"right\") - Input.get_action_strength(\"left\")
+	_velocity.z = Input.get_action_strength(\"down\") - Input.get_action_strength(\"forward\")
 	match STATED:
 		state.FREECAM:
-			_velocity.x = Input.get_action_strength(\"right\") - Input.get_action_strength(\"left\")
-			_velocity.z = Input.get_action_strength(\"down\") - Input.get_action_strength(\"forward\")
-			_velocity = _velocity.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
+			_velocity = _velocity.rotated(Vector3.UP, _spring_arm.rotation.y)
 		state.TARGETING:
-			_velocity.z = Input.get_action_strength(\"forward\") - Input.get_action_strength(\"down\")
-			_velocity.x = Input.get_action_strength(\"left\") - Input.get_action_strength(\"right\")
 			eyes.look_at(target.global_transform.origin, Vector3.DOWN)
-			_velocity = _velocity.rotated(Vector3.UP, eyes.rotation.y).normalized()
+			_spring_arm.rotation.y = eyes.rotation.y
+			_velocity = _velocity.rotated(Vector3.UP, eyes.rotation.y)
 		_:
 			print(\"NOTHING\")
 	_velocity.y -= gravity * _delta
-	set_velocity(_velocity.normalized() * speed[activeSpeed])
-	# TODOConverter3To4 looks that snap in Godot 4 is float, not vector like in Godot 3 - previous value `_snap_vector`
+	set_velocity(_velocity.normalized() * speed)
 	set_up_direction(Vector3.ZERO)
 	move_and_slide()
 	_velocity = velocity
@@ -49,27 +47,27 @@ func _physics_process(_delta: float) -> void:
 
 [sub_resource type="SeparationRayShape3D" id="4"]
 
-[node name="Root" type="Node3D"]
-transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0)
-
-[node name="PlayerMovementBody" type="CharacterBody3D" parent="."]
+[node name="PlayerMovementBody" type="CharacterBody3D"]
 script = SubResource("3")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerMovementBody"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("1")
 
-[node name="CSGMesh3D" type="CSGMesh3D" parent="PlayerMovementBody/CollisionShape3D"]
+[node name="CSGMesh3D" type="CSGMesh3D" parent="CollisionShape3D"]
 mesh = SubResource("2")
 
-[node name="SpringArm3D" type="SpringArm3D" parent="PlayerMovementBody"]
+[node name="SpringArm3D" type="SpringArm3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.866026, 0.5, 0, -0.5, 0.866026, 0, 0, 5)
 shape = SubResource("4")
 spring_length = 12.0
 margin = 0.5
 script = ExtResource("1")
 
-[node name="Camera3D" type="Camera3D" parent="PlayerMovementBody/SpringArm3D"]
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D"]
 current = true
 fov = 90.0
 
-[node name="Eyes" type="Node3D" parent="PlayerMovementBody"]
+[node name="Eyes" type="Node3D" parent="."]
+
+[node name="Root" type="Node3D" parent="."]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0)
