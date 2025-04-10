@@ -6,10 +6,9 @@ func _ready() -> void:
 
 
 func _unhandled_input(event : InputEvent) -> void:
-	"""
-	if Input.is_action_pressed("ui_left"):
+	if event.is_action_pressed("ui_left"):
 		rotation_degrees.y += 10
-	elif Input.is_action_pressed("ui_right"):
+	elif event.is_action_pressed("ui_right"):
 		rotation_degrees.y -= 10
 	else:
 		rotation_degrees.y += 0
@@ -21,7 +20,7 @@ func _unhandled_input(event : InputEvent) -> void:
 		
 		rotation_degrees.y -= event.relative.x * 1.2
 		rotation_degrees.y = wrapf(rotation_degrees.y, 0.0, 360.0)
-
+"""
 	"""
 func _process(delta):
 	if InputEventJoypadMotion:
