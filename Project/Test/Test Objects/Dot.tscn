@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://caukd1x55jqsd"]
+
+[ext_resource type="Script" path="res://Test/Test Objects/Dot.gd" id="1_phtim"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g074p"]
+radius = 20.025
+
+[sub_resource type="SphereMesh" id="SphereMesh_77vhs"]
+
+[node name="Node2D" type="Area2D"]
+script = ExtResource("1_phtim")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_g074p")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+scale = Vector2(40, 40)
+mesh = SubResource("SphereMesh_77vhs")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

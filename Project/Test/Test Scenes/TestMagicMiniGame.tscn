@@ -1,36 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://dsqwp8v1ep8mk"]
+[gd_scene load_steps=4 format=3 uid="uid://dsqwp8v1ep8mk"]
 
-[ext_resource type="Script" path="res://Test/Test Scenes/TestMagicMiniGame.gd" id="1_rlk7c"]
-[ext_resource type="PackedScene" uid="uid://cqnnybmefmqay" path="res://Test/Test Objects/Node.tscn" id="2_yyahm"]
+[ext_resource type="Script" path="res://Test/Test Objects/MagicMiniGame.cs" id="1_7petb"]
+[ext_resource type="PackedScene" uid="uid://caukd1x55jqsd" path="res://Test/Test Objects/Dot.tscn" id="2_7muhh"]
 [ext_resource type="PackedScene" uid="uid://brclk38outl8v" path="res://Test/Test Objects/TestMouse.tscn" id="3_dqi7g"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_r4ym5"]
+[node name="GameRoot" type="Node2D"]
+script = ExtResource("1_7petb")
+DotScene = ExtResource("2_7muhh")
 
-[node name="Control" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_rlk7c")
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
 
-[node name="Panel" type="Panel" parent="."]
-visible = false
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="RigidBody2D" parent="." instance=ExtResource("3_dqi7g")]
+position = Vector2(316, 371)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(179, 87)
-shape = SubResource("CircleShape2D_r4ym5")
-
-[node name="Node2D" parent="." groups=["Node"] instance=ExtResource("2_yyahm")]
-position = Vector2(341, 175)
-
-[node name="TestMouse" parent="." groups=["Node"] instance=ExtResource("3_dqi7g")]
-position = Vector2(236, 291)
-
-[connection signal="tree_entered" from="Node2D" to="." method="_on_node_2d_tree_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

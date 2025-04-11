@@ -3,17 +3,18 @@
 [ext_resource type="Script" path="res://Test/Test Objects/RigidBody2D.cs" id="2_v0s6m"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_scjvg"]
+radius = 20.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_s01xa"]
 
-[node name="TestMouse" type="Node2D"]
-
-[node name="RigidBody2D" type="StaticBody2D" parent="."]
+[node name="RigidBody2D" type="StaticBody2D"]
 script = ExtResource("2_v0s6m")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_scjvg")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="RigidBody2D"]
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
 scale = Vector2(20, 20)
 mesh = SubResource("SphereMesh_s01xa")
+
+[node name="TestMouse" type="Node2D" parent="."]

@@ -1,22 +1,20 @@
-extends Control
-@onready var window = $Panel
-#Transform2D size = null
+extends Node2D
 
-# Called when the node enters the scene tree for the first time.
+@export var dot_scene: PackedScene  # Drag and drop your Dot scene here in the Inspector
+@export var spawn_interval: float = 1.0  # Time between spawning dots
+@export var spawn_area: Rect2  # Define an area where dots can appear
+
 func _ready():
-	
-	window.size = get_viewport_rect().size / 3
-	window.set_position(Vector2(get_viewport_rect().size.x - window.size.x * 2, (get_viewport_rect().size.y + window.size.y) / 2))
-	#window.position.x = get_viewport_rect().size / 2 - window.size.y
-	pass # Replace with function body.
+	$Timer.wait_time = spawn_interval
+	$Timer.start()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
-
-func _on_node_2d_tree_entered(extra_arg_0):
-	print(extra_arg_0)
-	$Node2D.queue_free()
+func _on_timer_timeout():
+	var dot = dot_scene.instantiate()  # Create an instance of the dot
+	var random_position = Vector2(
+		randi_range(spawn_area.position.x, spawn_area.position.x + spawn_area.size.x),
+		randi_range(spawn_area.position.y, spawn_area.position.y + spawn_area.size.y)
+	)
+	dot.position = random_position
+	add_child(dot)
 	pass # Replace with function body.
