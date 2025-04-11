@@ -1,9 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
 [sub_resource type="GDScript" id=3]
-script/source = "extends KinematicBody
+script/source = "extends CharacterBody3D
 
-export var speed: float = 10
+@export var speed: float = 10
 
 func _physics_process(_delta: float) -> void:
 	var wishdir = Vector3()
@@ -18,22 +18,23 @@ func _physics_process(_delta: float) -> void:
 		wishdir += Vector3.BACK
 
 	wishdir = wishdir.normalized()
-	move_and_slide(wishdir * speed)
+	set_velocity(wishdir * speed)
+	move_and_slide()
 "
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="CapsuleShape3D" id=1]
 
 [sub_resource type="CapsuleMesh" id=2]
 
-[node name="Root" type="Spatial"]
-transform = Transform( 1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0 )
+[node name="Root" type="Node3D"]
+transform = Transform3D( 1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0 )
 
-[node name="PlayerMovementBody" type="KinematicBody" parent="."]
+[node name="PlayerMovementBody" type="CharacterBody3D" parent="."]
 script = SubResource( 3 )
 
-[node name="CollisionShape" type="CollisionShape" parent="PlayerMovementBody"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerMovementBody"]
+transform = Transform3D( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 shape = SubResource( 1 )
 
-[node name="CSGMesh" type="CSGMesh" parent="PlayerMovementBody/CollisionShape"]
+[node name="CSGMesh3D" type="CSGMesh3D" parent="PlayerMovementBody/CollisionShape3D"]
 mesh = SubResource( 2 )
