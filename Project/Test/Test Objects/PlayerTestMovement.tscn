@@ -22,10 +22,12 @@ var rolling: bool = false
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_released(\"roll\"):
 		counter = 0
-		if _velocity == Vector3.ZERO:
-			target_position = global_transform.basis * Vector3(0,0,-velocity.z) * 10
+		if _velocity == Vector3(0, _velocity.y, 0):
+			print(_velocity)
+			target_position = global_position + $CollisionShape3D.basis.z * 10
 			pass
 		else:
+			print(_velocity.rotated(Vector3.UP, _spring_arm.rotation.y).normalized())
 			target_position = Vector3(global_position.x + (_velocity.x * 10.0), 0.0, global_position.z + (_velocity.z *10.0))
 		rolling = true
 	if rolling == true:
@@ -40,21 +42,24 @@ func _physics_process(_delta: float) -> void:
 		match STATED:
 			state.FREECAM:
 				_velocity = _velocity.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
-				$CollisionShape3D.rotation.y = Vector2(-_velocity.z, -_velocity.x).angle()
 			state.TARGETING:
 				if target == null:
 					STATED = state.FREECAM
 				else:
 					eyes.look_at(target.global_transform.origin, Vector3.DOWN)
 					_spring_arm.rotation.y = eyes.rotation.y
-					$CollisionShape3D.rotation.y = eyes.rotation.y
 					_velocity = _velocity.rotated(Vector3.UP, eyes.rotation.y).normalized()
 			_:
 				print(\"NOTHING\")
+	if _velocity != Vector3(0, _velocity.y, 0):
+		$CollisionShape3D.rotation.y = Vector2(velocity.z, velocity.x).angle()
 	_velocity.y -= gravity * _delta
 	set_velocity(_velocity * speed)
 	move_and_slide()
 	_spring_arm.position = position
+
+func TargetRotationSet():
+	$CollisionShape3D.rotation.y = 3.14
 "
 
 [sub_resource type="CapsuleShape3D" id="1"]
@@ -75,7 +80,7 @@ shape = SubResource("1")
 mesh = SubResource("2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.392764, 0.542884)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.392764, -0.457116)
 mesh = SubResource("BoxMesh_s0qaq")
 skeleton = NodePath("../..")
 
