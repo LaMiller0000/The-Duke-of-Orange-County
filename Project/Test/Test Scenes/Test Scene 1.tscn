@@ -1,9 +1,9 @@
 [gd_scene load_steps=8 format=3 uid="uid://3leq65vmymbc"]
 
-[ext_resource type="PackedScene" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://b1vap8jsxhssq" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://Test/Test Objects/Test Camera.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://dsqwp8v1ep8mk" path="res://Test/Test Scenes/TestMagicMiniGame.tscn" id="3_hl3vy"]
-[ext_resource type="PackedScene" uid="uid://caukd1x55jqsd" path="res://Test/Test Objects/Dot.tscn" id="4_xfgs0"]
+[ext_resource type="PackedScene" uid="uid://m3oq4aiffqf7" path="res://Test/Test Scenes/TestMagicMiniGame.tscn" id="3_hl3vy"]
+[ext_resource type="PackedScene" uid="uid://w2y77slfsupc" path="res://Test/Test Objects/Dot.tscn" id="4_xfgs0"]
 
 [sub_resource type="BoxShape3D" id="1"]
 
