@@ -7,12 +7,13 @@ script/source = "extends CharacterBody3D
 
 @onready var _spring_arm: SpringArm3D = $SpringArm3D
 @onready var eyes: Node3D = $Eyes
+@onready var RotationModel: Node3D = $CollisionShape3D
 var gravity = 9.8
 var counter = 0
 @export var target: Node
 @export var speed: int = 20
 var _velocity := Vector3.ZERO
-var target_position: Vector3 = Vector3(10, 0, 10)
+var target_position: Vector3 = Vector3.ZERO
 var direction = global_position
 enum state {TARGETING, FREECAM, ROLLING}
 @export var STATED = state.FREECAM
@@ -24,7 +25,7 @@ func _physics_process(_delta: float) -> void:
 		counter = 0
 		if _velocity == Vector3(0, _velocity.y, 0):
 			print(_velocity)
-			target_position = global_position + $CollisionShape3D.basis.z * 10
+			target_position = global_position + RotationModel.basis.z * 10
 			pass
 		else:
 			print(_velocity.rotated(Vector3.UP, _spring_arm.rotation.y).normalized())
@@ -52,14 +53,14 @@ func _physics_process(_delta: float) -> void:
 			_:
 				print(\"NOTHING\")
 	if _velocity != Vector3(0, _velocity.y, 0):
-		$CollisionShape3D.rotation.y = Vector2(velocity.z, velocity.x).angle()
+		RotationModel.rotation.y = Vector2(velocity.z, velocity.x).angle()
 	_velocity.y -= gravity * _delta
 	set_velocity(_velocity * speed)
 	move_and_slide()
 	_spring_arm.position = position
 
 func TargetRotationSet():
-	$CollisionShape3D.rotation.y = 3.14
+	RotationModel.rotation.y = 3.14
 "
 
 [sub_resource type="CapsuleShape3D" id="1"]
