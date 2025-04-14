@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwmm3uwaxud0n"]
+
+[ext_resource type="Script" path="res://TestVibration.cs" id="1_h16to"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h16to")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 26.0
+offset_right = 1125.0
+offset_bottom = 607.0
+toggle_mode = true
+
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
+[connection signal="toggled" from="Button" to="." method="_on_button_toggled"]
