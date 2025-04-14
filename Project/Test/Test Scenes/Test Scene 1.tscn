@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://3leq65vmymbc"]
+[gd_scene load_steps=9 format=3 uid="uid://dgy67j71dqkip"]
 
-[ext_resource type="PackedScene" uid="uid://b1vap8jsxhssq" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
-[ext_resource type="Script" path="res://Test/Test Scenes/Test Scene 1.gd" id="1_s7gco"]
+[ext_resource type="PackedScene" uid="uid://b6bu7uoeohwdj" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
+[ext_resource type="Script" uid="uid://ok5vsen1epr6" path="res://Test/Test Scenes/Test Scene 1.gd" id="1_s7gco"]
 
 [sub_resource type="BoxShape3D" id="1"]
 
