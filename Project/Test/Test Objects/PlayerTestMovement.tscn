@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ik4njgxxrgtn"]
+[gd_scene load_steps=6 format=3 uid="uid://b1vap8jsxhssq"]
 
 [ext_resource type="Script" path="res://Scripts/TestSpringArm.gd" id="1"]
 

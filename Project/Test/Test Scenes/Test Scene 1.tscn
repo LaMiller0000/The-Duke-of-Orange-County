@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://dh27mgsqei37"]
+[gd_scene load_steps=9 format=3 uid="uid://3leq65vmymbc"]
 
-[ext_resource type="PackedScene" uid="uid://ik4njgxxrgtn" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://b1vap8jsxhssq" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
 [ext_resource type="Script" path="res://Test/Test Scenes/Test Scene 1.gd" id="1_s7gco"]
 
 [sub_resource type="BoxShape3D" id="1"]
