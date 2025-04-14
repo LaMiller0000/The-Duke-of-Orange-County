@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://3leq65vmymbc"]
+[gd_scene load_steps=8 format=3 uid="uid://3leq65vmymbc"]
 
 [ext_resource type="PackedScene" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://Test/Test Objects/Test Camera.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://dsqwp8v1ep8mk" path="res://Test/Test Scenes/TestMagicMiniGame.tscn" id="3_hl3vy"]
+[ext_resource type="PackedScene" uid="uid://caukd1x55jqsd" path="res://Test/Test Objects/Dot.tscn" id="4_xfgs0"]
 
 [sub_resource type="BoxShape3D" id="1"]
 
@@ -28,3 +30,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 
 [node name="Test Camera3D" parent="." instance=ExtResource("2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.254032, 4.88145, 20.5825)
+
+[node name="GameRoot" parent="." instance=ExtResource("3_hl3vy")]
+EmitterScene = ExtResource("4_xfgs0")
+x = 1800
+y = 1800
+Radius = 100

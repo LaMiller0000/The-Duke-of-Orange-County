@@ -8,5 +8,10 @@
 script = ExtResource("1_7petb")
 DotScene = ExtResource("2_7muhh")
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+
 [node name="RigidBody2D" parent="." instance=ExtResource("3_dqi7g")]
 position = Vector2(316, 371)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

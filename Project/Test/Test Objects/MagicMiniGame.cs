@@ -10,51 +10,89 @@ public partial class MagicMiniGame : Node2D
 	public float SpawnInterval { get; set; } = 0.1f;
 
 	[Export]
-	public Rect2 SpawnArea { get; set; }
+	public int Counter { get; set; } = 3;
 
-	private Timer timer;
+	[Export]
+	public PackedScene EmitterScene { get; set; }
 
-	// Called when the node enters the scene tree for the first time.
+	private Node2D dot;
+
+	private Vector2 point;
+
+	[Export]
+	public int x, y, Radius, Points;
+	
+	public MagicMiniGame()
+	{
+		this.x = 0;
+		this.y = 0;
+		this.Radius = 0;
+	}
+
+	public MagicMiniGame(int x, int y, int radius)
+	{
+		this.x = x;
+		this.y = y;
+		this.Radius = radius;
+	}
+
+	~MagicMiniGame()
+	{
+		DotScene.Free();
+		dot.Dispose();
+		EmitterScene.Free();
+	}
+
 	public override void _Ready()
 	{
-		timer = GetNode<Timer>("Timer");
-		timer.WaitTime = SpawnInterval;
-		timer.Start();
-
+		var emitterInstance = MakePoint(x, y, Radius);
+		AddChild(emitterInstance);
+		if (emitterInstance is Node signalEmitter && signalEmitter.HasSignal("MySignal"))
+		{
+			signalEmitter.Connect("MySignal", new Callable(this, "OnMySignalReceived"));
+		}
+		else
+		{
+			GD.PrintErr("Emitter instance does not have the signal 'MySignal'.");
+		}
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
+	private void OnMySignalReceived()
 	{
-
+		GD.Print("Signal received");
+		--Counter;
+		if (Counter != 0)
+		{
+			++Points;
+			var emitterInstance = MakePoint(x, y, Radius);
+			AddChild(emitterInstance);
+			if (emitterInstance is Node2D SignalEmitter && SignalEmitter.HasSignal("MySignal"))
+			{
+				SignalEmitter.Connect("MySignal", new Callable(this, nameof(OnMySignalReceived)));
+			}
+			else
+			{
+				GD.PrintErr("Emitter instance does not have the signal 'MySignal'.");
+			}
+		}
 	}
-	
-	private Vector2 GetRandomPoint(int x, int y, int radius)
+
+	private Vector2 GetRandomPoint(int X, int Y, int R)
 	{
-		Random random       = new();
-		double angle        = random.NextDouble() * 2 * Math.PI;                    // Random angle between 0 and 2*pi
-		double randomRadius = Math.Sqrt(random.NextDouble()) * (radius / 2); // Random radius between 0 and maxRadius
-
-		// Calculate the x and y coordinates using polar to Cartesian conversion
-		int randomX = x + (int)(randomRadius * Math.Cos(angle));
-		int randomY = y + (int)(randomRadius * Math.Sin(angle));
-
+		Random random = new();
+		double angle = random.NextDouble() * 2 * Math.PI;
+		int randomX = X + (int)(R * Math.Cos(angle));
+		int randomY = Y + (int)(R * Math.Sin(angle));
 		return new Vector2(randomX, randomY);
 	}
-	
-	private void _on_timer_timeout()
+
+	private Node2D MakePoint(int X, int Y, int R)
 	{
-		var point = GetRandomPoint(800, 800, 450);
-		var dot = DotScene.Instantiate<Node2D>();
-		var RandomPosition = new Vector2(
-			(float)point[0],
-			(float)point[1]
-		);
-		dot.Position = RandomPosition;
-		AddChild(dot );
-		// Replace with function body.
+		point = GetRandomPoint(X, Y, R);
+		var newDot = DotScene.Instantiate<Node2D>();
+		newDot.Position = point;
+		return (newDot);
 	}
+
+	public int GetPoints() => Points;
 }
-
-
-
