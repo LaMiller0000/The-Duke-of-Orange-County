@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b1vap8jsxhssq"]
+[gd_scene load_steps=6 format=3 uid="uid://ik4njgxxrgtn"]
 
 [ext_resource type="Script" path="res://Scripts/TestSpringArm.gd" id="1"]
 
@@ -8,37 +8,30 @@ script/source = "extends CharacterBody3D
 @onready var _spring_arm: SpringArm3D = $SpringArm3D
 @onready var eyes: Node3D = $Eyes
 var gravity = 9.8
-var counter = 0
 @export var target: Node
 @export var speed: int = 20
 var _velocity := Vector3.ZERO
-var target_position: Vector3 = Vector3(10, 0, 10)
-var direction = global_position
 enum state {TARGETING, FREECAM, ROLLING}
 @export var STATED = state.FREECAM
 var PREVSTATE = state.FREECAM
+var target_position: Vector3 = Vector3(10, 0, 10)
 var rolling: bool = false
 
 func _physics_process(_delta: float) -> void:
-	if Input.is_action_just_released(\"roll\"):
-		counter = 0
-		target_position = Vector3(global_position.x + (_velocity.x * 10.0), 0.0, global_position.z + (_velocity.z *10.0))
-		rolling = true
 	if rolling == true:
-		counter += 1
-		direction = global_position.direction_to(target_position)
-		_velocity = direction
-		if global_position.distance_to(target_position) < 1.1 || counter > 24:
+		var direction = global_position.direction_to(target_position)
+		velocity = direction * speed
+		move_and_slide()
+		if global_position.distance_to(target_position) < 1.1:
 			rolling = false
-	elif rolling == false:
-		_velocity.x = Input.get_action_strength(\"right\") - Input.get_action_strength(\"left\")
-		_velocity.z = Input.get_action_strength(\"down\") - Input.get_action_strength(\"up\")
+	else:
 		match STATED:
 			state.FREECAM:
 				_velocity = _velocity.rotated(Vector3.UP, _spring_arm.rotation.y).normalized()
 			state.TARGETING:
 				if target == null:
 					STATED = state.FREECAM
+					print(\"broken or target deleted\")
 				else:
 					eyes.look_at(target.global_transform.origin, Vector3.DOWN)
 					_spring_arm.rotation.y = eyes.rotation.y
@@ -46,9 +39,43 @@ func _physics_process(_delta: float) -> void:
 			_:
 				print(\"NOTHING\")
 	_velocity.y -= gravity * _delta
-	set_velocity(_velocity * speed)
-	move_and_slide()
+	if Input.is_action_just_released(\"roll\"):
+		print(\"rolled pressed\")
+		print(_velocity)
+		target_position = Vector3(global_position.x + (_velocity.x * 10.0), 0.0, global_position.z + (_velocity.z *10.0))
+		rolling = true
+	elif rolling == false:
+		set_velocity(_velocity * speed)
+		move_and_slide()
+		_velocity.x = Input.get_action_strength(\"right\") - Input.get_action_strength(\"left\")
+		_velocity.z = Input.get_action_strength(\"down\") - Input.get_action_strength(\"up\")
 	_spring_arm.position = position
+\"\"\"
+
+# Variables for movement
+#var target_position: Vector3 = Vector3(10, 10, 10) # Target position
+#var speed: float = 5.0 # Movement speed (units per second)
+
+func _physics_process(delta: float) -> void:
+	# Calculate direction to the target
+	var direction = global_position.direction_to(target_position)
+	
+	# Update velocity based on direction and speed
+	velocity = direction * speed
+	
+	# Move the character
+	move_and_slide()
+	
+	
+	# Stop movement when close to the target
+	if global_position.distance_to(target_position) < 1.1:
+		velocity = Vector3.ZERO
+		print(global_position.distance_to(target_position))
+		print(\"stopped\")
+	elif global_position.distance_to(target_position) > 1.1:
+		print(\"moving\")
+		print(global_position.distance_to(target_position))
+\"\"\"
 "
 
 [sub_resource type="CapsuleShape3D" id="1"]
