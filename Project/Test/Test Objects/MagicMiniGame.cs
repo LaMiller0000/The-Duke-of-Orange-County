@@ -33,7 +33,7 @@ public partial class MagicMiniGame : Node2D
 	{
 		this.x = x;
 		this.y = y;
-		this.Radius = radius;
+		this.Radius = radius * 2;
 	}
 
 	~MagicMiniGame()

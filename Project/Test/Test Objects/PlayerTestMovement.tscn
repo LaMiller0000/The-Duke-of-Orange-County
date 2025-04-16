@@ -1,4 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://b1vap8jsxhssq"]
+[gd_scene load_steps=6 format=3 uid="uid://b1vap8jsxhssq"]
+
+[ext_resource type="PackedScene" uid="uid://m3oq4aiffqf7" path="res://Test/Test Scenes/TestMagicMiniGame.tscn" id="1_jlwpo"]
+[ext_resource type="PackedScene" uid="uid://c24phtqlr7i0c" path="res://Test/Test Scenes/test_magic_select.tscn" id="2_o5xko"]
 
 [sub_resource type="GDScript" id="3"]
 script/source = "extends CharacterBody3D
@@ -37,3 +40,7 @@ shape = SubResource("1")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="PlayerMovementBody/CollisionShape3D"]
 mesh = SubResource("2")
+
+[node name="GameRoot" parent="." instance=ExtResource("1_jlwpo")]
+
+[node name="TestMagicSelectRoot" parent="." instance=ExtResource("2_o5xko")]
