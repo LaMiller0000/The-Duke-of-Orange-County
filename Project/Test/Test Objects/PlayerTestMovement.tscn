@@ -33,7 +33,6 @@ transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0)
 script = SubResource("3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerMovementBody"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 shape = SubResource("1")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="PlayerMovementBody/CollisionShape3D"]

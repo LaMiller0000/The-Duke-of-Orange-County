@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://c3ujnelc6x0qg"]
 
-[sub_resource type="Environment" id=1]
+[sub_resource type="Environment" id="1"]
 
 [node name="Test Camera3D" type="Node3D"]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-environment = SubResource( 1 )
+environment = SubResource("1")
 current = true
 fov = 90.0
 

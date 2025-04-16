@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dwmm3uwaxud0n"]
 
-[ext_resource type="Script" path="res://TestVibration.cs" id="1_h16to"]
+[ext_resource type="Script" uid="uid://nx4201my21mg" path="res://TestVibration.cs" id="1_h16to"]
 
 [node name="Control" type="Control"]
 layout_mode = 3

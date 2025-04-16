@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://m3oq4aiffqf7"]
 
-[ext_resource type="Script" path="res://Test/Test Objects/MagicMiniGame.cs" id="1_7petb"]
+[ext_resource type="Script" uid="uid://cciuqaf68f33v" path="res://Test/Test Objects/MagicMiniGame.cs" id="1_7petb"]
 [ext_resource type="PackedScene" uid="uid://w2y77slfsupc" path="res://Test/Test Objects/Dot.tscn" id="2_7muhh"]
 [ext_resource type="PackedScene" uid="uid://rpjk51vv0ikn" path="res://Test/Test Objects/TestMouse.tscn" id="3_dqi7g"]
 

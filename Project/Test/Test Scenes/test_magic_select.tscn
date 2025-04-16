@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://c24phtqlr7i0c"]
+
+[ext_resource type="Script" uid="uid://c1qqxk8dr52qh" path="res://Test/Test Scenes/TestMagicSelect.cs" id="1_s2swl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s2swl"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_h228i"]
+
+[node name="TestMagicSelectRoot" type="Node2D" node_paths=PackedStringArray("up", "down", "left", "right")]
+script = ExtResource("1_s2swl")
+up = NodePath("Up")
+down = NodePath("Down")
+left = NodePath("Left")
+right = NodePath("Right")
+
+[node name="Up" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Up"]
+shape = SubResource("CircleShape2D_s2swl")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Up"]
+scale = Vector2(20, 20)
+mesh = SubResource("SphereMesh_h228i")
+
+[node name="Down" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Down"]
+shape = SubResource("CircleShape2D_s2swl")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Down"]
+scale = Vector2(20, 20)
+mesh = SubResource("SphereMesh_h228i")
+
+[node name="Left" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Left"]
+shape = SubResource("CircleShape2D_s2swl")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Left"]
+scale = Vector2(20, 20)
+mesh = SubResource("SphereMesh_h228i")
+
+[node name="Right" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Right"]
+shape = SubResource("CircleShape2D_s2swl")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Right"]
+scale = Vector2(20, 20)
+mesh = SubResource("SphereMesh_h228i")
