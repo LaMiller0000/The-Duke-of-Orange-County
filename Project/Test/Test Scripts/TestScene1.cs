@@ -1,7 +1,7 @@
 using Godot;
 //using System;
 
-public partial class TestOnScreenMenuMiniGame : Node
+public partial class TestScene1 : Node
 {
 	[Export] public PackedScene Selection;
 	
