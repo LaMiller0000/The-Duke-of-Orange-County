@@ -3,6 +3,9 @@ using System;
 
 public partial class MagicMiniGame : Node2D
 {
+	[Signal]
+	public delegate void OutOfPointsEventHandler();
+	
 	[Export]
 	public PackedScene DotScene { get; set; }
 
@@ -74,6 +77,10 @@ public partial class MagicMiniGame : Node2D
 			{
 				GD.PrintErr("Emitter instance does not have the signal 'MySignal'.");
 			}
+		}
+		else
+		{
+			EmitSignal("OutOfPoints");
 		}
 	}
 

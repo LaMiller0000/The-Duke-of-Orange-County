@@ -1,8 +1,8 @@
 using Godot;
 using System;
 
-public partial class TestMagicSelect : Node2D
-{
+public partial class TestMagicSelect : Node2D{
+	
 	[Signal]
 	public delegate void SelectedEventHandler(int d);
 	

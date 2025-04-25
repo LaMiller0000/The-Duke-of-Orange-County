@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://3leq65vmymbc"]
+[gd_scene load_steps=9 format=3 uid="uid://3leq65vmymbc"]
 
 [ext_resource type="PackedScene" uid="uid://b1vap8jsxhssq" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
+[ext_resource type="Script" path="res://Test/Test Scripts/TestScene1.cs" id="1_puc3h"]
 [ext_resource type="PackedScene" uid="uid://c3ujnelc6x0qg" path="res://Test/Test Objects/Test Camera.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://m3oq4aiffqf7" path="res://Test/Test Scenes/TestMagicMiniGame.tscn" id="3_hl3vy"]
-[ext_resource type="PackedScene" uid="uid://w2y77slfsupc" path="res://Test/Test Objects/Dot.tscn" id="4_xfgs0"]
+[ext_resource type="PackedScene" uid="uid://c24phtqlr7i0c" path="res://Test/Test Scenes/test_magic_select.tscn" id="2_dl6ap"]
+[ext_resource type="PackedScene" uid="uid://m3oq4aiffqf7" path="res://Test/Test Scenes/TestMagicMiniGame.tscn" id="3_fsodh"]
 
 [sub_resource type="BoxShape3D" id="1"]
 
@@ -12,6 +13,9 @@
 [sub_resource type="StandardMaterial3D" id="3"]
 
 [node name="Root" type="Node3D"]
+script = ExtResource("1_puc3h")
+Selection = ExtResource("2_dl6ap")
+MiniGame = ExtResource("3_fsodh")
 
 [node name="Floor" type="Node" parent="."]
 
@@ -30,9 +34,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 
 [node name="Test Camera3D" parent="." instance=ExtResource("2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.254032, 4.88145, 20.5825)
-
-[node name="GameRoot" parent="." instance=ExtResource("3_hl3vy")]
-EmitterScene = ExtResource("4_xfgs0")
-x = 1800
-y = 1800
-Radius = 100
