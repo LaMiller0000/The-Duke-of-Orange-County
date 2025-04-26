@@ -1,5 +1,5 @@
 using Godot;
-//using System;
+using System;
 
 public partial class TestScene1 : Node
 {
@@ -18,7 +18,16 @@ public partial class TestScene1 : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		GetTree().Root.SizeChanged += OnWindowResized;
+
+		AddSelector();
+	}
+
+	private void AddSelector()
+	{
 		_selectScene = Selection.Instantiate<TestMagicSelect>();
+		_selectScene.SetCoor(GetWindow().Size - GetWindow().Size / 3);
+		Positioner();
 		AddChild(_selectScene);
 		if (_selectScene is Node signalEmitter && signalEmitter.HasSignal("Selected"))
 		{
@@ -30,6 +39,33 @@ public partial class TestScene1 : Node
 		}
 	}
 
+	private void OnWindowResized()
+	{
+		Positioner();
+		GD.Print("Window size changed!");
+	}
+
+	private void Positioner()
+	{
+		Vector2 windowSize = GetWindow().Size;
+		GD.Print("Window Size: " + windowSize);
+
+		if (_selectScene != null)
+		{
+			GD.Print(_selectScene.GetCoor());
+			_selectScene.SetCoor(windowSize - windowSize / 3);
+			_selectScene.Radius = (int)(windowSize.X / 10);
+			_selectScene.Positioner();
+		}
+
+		if (_magicMiniGame != null)
+		{
+			_magicMiniGame.SetCoor(windowSize - windowSize / 3);
+			GD.Print("The magic minigame is " + _magicMiniGame.x + ", " + _magicMiniGame.y);
+			_magicMiniGame.SetRadius((int)(windowSize.X / 10));
+		}
+	}
+
 	private void OnMySignalReceived(int signal)
 	{
 		GD.PrintErr("Received signal: " + signal);
@@ -37,7 +73,9 @@ public partial class TestScene1 : Node
 		//probably should emit a signal or hold the value that is received with signal to know what move to cast
 		_selectScene.QueueFree();
 		_magicMiniGame = MiniGame.Instantiate<MagicMiniGame>();
+		Positioner();
 		AddChild(_magicMiniGame);
+		
 		if (_magicMiniGame is Node signalEmitter && signalEmitter.HasSignal("OutOfPoints"))
 		{
 			signalEmitter.Connect("OutOfPoints", new Callable(this, "OutOfPointsReceived"));
@@ -53,6 +91,7 @@ public partial class TestScene1 : Node
 		_miniGameNumber = _magicMiniGame.GetPoints();
 		GD.PrintErr("Received points: " + _miniGameNumber);
 		_magicMiniGame.QueueFree();
+		AddSelector();
 	}
 	
 	public int getSelectionNumber() => _selectionNumber;
@@ -62,5 +101,6 @@ public partial class TestScene1 : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		
 	}
 }

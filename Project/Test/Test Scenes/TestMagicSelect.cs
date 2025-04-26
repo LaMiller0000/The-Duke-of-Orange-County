@@ -18,7 +18,6 @@ public partial class TestMagicSelect : Node2D{
 	[Export]
 	public Area2D right;
 	
-	[Export]
 	public int Radius = 80;
 	/*
 	private Area2D up;
@@ -26,14 +25,29 @@ public partial class TestMagicSelect : Node2D{
 	private Area2D left;
 	private Area2D right;
 	*/
-	private int coor = 800;
+	private Vector2 coor = new Vector2(800, 800);
 	
-	public override void _Ready()
+	public Vector2 GetCoor() => coor;
+
+	public void SetCoor(Vector2 coor)
+	{
+		this.coor = coor;
+		Positioner();
+	}
+	
+	
+
+	public void Positioner()
 	{
 		up.Position = Angle(Math.PI / 2);
 		down.Position = Angle((3 * Math.PI) / 2);
 		left.Position = Angle(Math.PI);
 		right.Position = Angle(2 * Math.PI);
+	}
+
+	public override void _Ready()
+	{
+		Positioner();
 		up.MouseEntered += OnMouseEnteredUp;
 		down.MouseEntered += OnMouseEnteredDown;
 		left.MouseEntered += OnMouseEnteredLeft;
@@ -72,8 +86,8 @@ public partial class TestMagicSelect : Node2D{
 	
 	public Vector2 Angle(double angle)
 	{
-		float x = coor + Radius * (float)Math.Cos(angle);
-		float y = coor + Radius * (float)Math.Sin(angle);
+		float x = coor.X + Radius * (float)Math.Cos(angle);
+		float y = coor.Y + Radius * (float)Math.Sin(angle);
 		return new Vector2(x, y);
 	}
 }

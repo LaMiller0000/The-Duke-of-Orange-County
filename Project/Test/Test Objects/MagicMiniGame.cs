@@ -22,8 +22,8 @@ public partial class MagicMiniGame : Node2D
 
 	private Vector2 point;
 
-	[Export]
-	public int x, y, Radius, Points;
+	public int x, y, Points = 0;
+	public float Radius;
 	
 	public MagicMiniGame()
 	{
@@ -32,11 +32,16 @@ public partial class MagicMiniGame : Node2D
 		this.Radius = 0;
 	}
 
-	public MagicMiniGame(int x, int y, int radius)
+	public MagicMiniGame(int x, int y, float radius)
 	{
 		this.x = x;
 		this.y = y;
-		this.Radius = radius * 2;
+		this.Radius = radius;
+	}
+
+	public void SetRadius(int radius)
+	{
+		this.Radius = radius;
 	}
 
 	~MagicMiniGame()
@@ -48,6 +53,11 @@ public partial class MagicMiniGame : Node2D
 
 	public override void _Ready()
 	{
+		for (int i = 0; i < 100; i++)
+		{
+			var EmitterInstance = MakePoint(x, y, Radius);
+			AddChild(EmitterInstance);
+		}
 		var emitterInstance = MakePoint(x, y, Radius);
 		AddChild(emitterInstance);
 		if (emitterInstance is Node signalEmitter && signalEmitter.HasSignal("MySignal"))
@@ -58,6 +68,14 @@ public partial class MagicMiniGame : Node2D
 		{
 			GD.PrintErr("Emitter instance does not have the signal 'MySignal'.");
 		}
+
+
+	}
+
+	public void SetCoor(Vector2 coor)
+	{
+		this.x = (int)coor.X;
+		this.y = (int)coor.Y;
 	}
 
 	private void OnMySignalReceived()
@@ -84,16 +102,18 @@ public partial class MagicMiniGame : Node2D
 		}
 	}
 
-	private Vector2 GetRandomPoint(int X, int Y, int R)
+	private Vector2 GetRandomPoint(int X, int Y, float R)
 	{
 		Random random = new();
-		double angle = random.NextDouble() * 2 * Math.PI;
-		int randomX = X + (int)(R * Math.Cos(angle));
-		int randomY = Y + (int)(R * Math.Sin(angle));
-		return new Vector2(randomX, randomY);
+		double angle = random.NextDouble() * (2 * Math.PI);
+	
+		float offsetX = R * (float)Math.Cos(angle);
+		float offsetY = R * (float)Math.Sin(angle);
+	
+		return new Vector2(X + offsetX, Y + offsetY); // Keep as float
 	}
 
-	private Node2D MakePoint(int X, int Y, int R)
+	private Node2D MakePoint(int X, int Y, float R)
 	{
 		point = GetRandomPoint(X, Y, R);
 		var newDot = DotScene.Instantiate<Node2D>();
