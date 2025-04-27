@@ -54,7 +54,7 @@ public partial class TestScene1 : Node
 		{
 			GD.Print(_selectScene.GetCoor());
 			_selectScene.SetCoor(windowSize - windowSize / 3);
-			_selectScene.Radius = (int)(windowSize.X / 10);
+			_selectScene.Radius = (int)(windowSize.X / 15);
 			_selectScene.Positioner();
 		}
 
@@ -62,7 +62,10 @@ public partial class TestScene1 : Node
 		{
 			_magicMiniGame.SetCoor(windowSize - windowSize / 3);
 			GD.Print("The magic minigame is " + _magicMiniGame.x + ", " + _magicMiniGame.y);
-			_magicMiniGame.SetRadius((int)(windowSize.X / 10));
+			_magicMiniGame.SetRadius((int)(windowSize.X / 15));
+			GD.Print("BEFORE POSITIONER");
+
+			_magicMiniGame.Positioner();
 		}
 	}
 
@@ -73,9 +76,8 @@ public partial class TestScene1 : Node
 		//probably should emit a signal or hold the value that is received with signal to know what move to cast
 		_selectScene.QueueFree();
 		_magicMiniGame = MiniGame.Instantiate<MagicMiniGame>();
-		Positioner();
 		AddChild(_magicMiniGame);
-		
+		Positioner();
 		if (_magicMiniGame is Node signalEmitter && signalEmitter.HasSignal("OutOfPoints"))
 		{
 			signalEmitter.Connect("OutOfPoints", new Callable(this, "OutOfPointsReceived"));
@@ -101,6 +103,6 @@ public partial class TestScene1 : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		
+
 	}
 }
