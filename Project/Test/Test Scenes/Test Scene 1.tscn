@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dgy67j71dqkip"]
 
 [ext_resource type="PackedScene" uid="uid://b6bu7uoeohwdj" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
-[ext_resource type="Script" uid="uid://ok5vsen1epr6" path="res://Test/Test Scenes/Test Scene 1.gd" id="1_s7gco"]
+[ext_resource type="Script" path="res://Test/Test Scripts/TestScene1.cs" id="1_30i1i"]
 
 [sub_resource type="BoxShape3D" id="1"]
 
@@ -20,7 +20,7 @@ normal_enabled = true
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ykwwk"]
 
 [node name="Root" type="Node3D"]
-script = ExtResource("1_s7gco")
+script = ExtResource("1_30i1i")
 
 [node name="Floor" type="Node" parent="."]
 
@@ -50,5 +50,8 @@ shape = SubResource("CapsuleShape3D_1bp0u")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="Target/CollisionShape3D"]
 mesh = SubResource("CapsuleMesh_ykwwk")
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("1_30i1i")
 
 [editable path="Root"]

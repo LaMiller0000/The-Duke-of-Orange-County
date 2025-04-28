@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://b6bu7uoeohwdj"]
 
-[ext_resource type="Script" uid="uid://y21p2rpis0rp" path="res://Scripts/TestSpringArm.gd" id="1"]
+[ext_resource type="Script" path="res://Scripts/TestSpringArm.gd" id="1"]
 
 [sub_resource type="GDScript" id="3"]
 script/source = "extends CharacterBody3D
