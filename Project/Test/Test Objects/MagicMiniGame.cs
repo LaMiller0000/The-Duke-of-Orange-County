@@ -18,7 +18,7 @@ public partial class MagicMiniGame : Node2D
 	[Export]
 	public PackedScene EmitterScene { get; set; }
 
-	private int TimeCounter = 3;
+	private int TimeCounter = 2;
 
 	private Node2D emitterInstance;
 	
@@ -77,6 +77,11 @@ public partial class MagicMiniGame : Node2D
 		this.Radius = radius;
 	}
 
+	public void SetTimeCounter(int time)
+	{
+		TimeCounter = time;
+	}
+
 	~MagicMiniGame()
 	{
 		DotScene.Free();
@@ -110,7 +115,7 @@ public partial class MagicMiniGame : Node2D
 	{
 		GD.Print("FIRST LINE OF POSITIONER");
 		progressBar.Position = new Vector2(x - (float)(x * .1), y + (float)(y * 0.3));
-		progressBar.Size = new Vector2(2 * Radius, (float)0.5 * Radius); 
+		progressBar.Size = new Vector2(2 * Radius, (float)0.2 * Radius); 
 		GD.Print("SECOND LINE OF POSITIONER");
 		SetCoor(GetWindow().Size - GetWindow().Size / 3);
 		SetRadius((int)(GetWindow().Size.X / 15));
