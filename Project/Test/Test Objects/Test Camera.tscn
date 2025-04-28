@@ -1,12 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://b3jl61lqc0rwn"]
 
-[sub_resource type="Environment" id=1]
+[sub_resource type="Environment" id="1"]
 
-[node name="Test Camera" type="Spatial"]
+[node name="Test Camera" type="Node3D"]
 
-[node name="Camera" type="Camera" parent="."]
-environment = SubResource( 1 )
+[node name="Camera" type="Camera3D" parent="."]
+environment = SubResource("1")
 current = true
 fov = 90.0
 
-[node name="DirectionalLight" type="DirectionalLight" parent="."]
+[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.00886612, 0.999961, 0, -0.999961, -0.00886612, 0, 4.05378, 0)

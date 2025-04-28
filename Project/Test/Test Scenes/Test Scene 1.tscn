@@ -1,30 +1,30 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://d1f01ydeo6w25"]
 
-[ext_resource path="res://Test/Test Objects/PlayerTestMovement.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Test/Test Objects/Test Camera.tscn" type="PackedScene" id=2]
+[ext_resource type="PackedScene" uid="uid://c66mbbo7lla5c" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://b3jl61lqc0rwn" path="res://Test/Test Objects/Test Camera.tscn" id="2"]
 
-[sub_resource type="BoxShape" id=1]
+[sub_resource type="BoxShape3D" id="1"]
 
-[sub_resource type="CubeMesh" id=2]
+[sub_resource type="BoxMesh" id="2"]
 
-[sub_resource type="SpatialMaterial" id=3]
+[sub_resource type="StandardMaterial3D" id="3"]
 
-[node name="Root" type="Spatial"]
+[node name="Root" type="Node3D"]
 
 [node name="Floor" type="Node" parent="."]
 
-[node name="StaticBody" type="StaticBody" parent="Floor"]
-transform = Transform( 50, 0, 0, 0, 0.5, 0, 0, 0, 50, 0, -0.5, 0 )
+[node name="StaticBody" type="StaticBody3D" parent="Floor"]
+transform = Transform3D(50, 0, 0, 0, 0.5, 0, 0, 0, 50, 0, -0.5, 0)
 
-[node name="CollisionShape" type="CollisionShape" parent="Floor/StaticBody"]
-shape = SubResource( 1 )
+[node name="CollisionShape" type="CollisionShape3D" parent="Floor/StaticBody"]
+shape = SubResource("1")
 
-[node name="CSGMesh" type="CSGMesh" parent="Floor/StaticBody/CollisionShape"]
-mesh = SubResource( 2 )
-material = SubResource( 3 )
+[node name="CSGMesh" type="CSGMesh3D" parent="Floor/StaticBody/CollisionShape"]
+mesh = SubResource("2")
+material = SubResource("3")
 
-[node name="Root" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0 )
+[node name="Root" parent="." instance=ExtResource("1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
 
-[node name="Test Camera" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.254032, 4.88145, 20.5825 )
+[node name="Test Camera" parent="." instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.254032, 4.88145, 20.5825)
