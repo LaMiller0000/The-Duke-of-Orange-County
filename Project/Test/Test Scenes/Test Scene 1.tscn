@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1f01ydeo6w25"]
+[gd_scene load_steps=6 format=3 uid="uid://dgy67j71dqkip"]
 
-[ext_resource type="PackedScene" uid="uid://c66mbbo7lla5c" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://b3jl61lqc0rwn" path="res://Test/Test Objects/Test Camera.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://b6bu7uoeohwdj" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://o8iowjhn3an3" path="res://Test/Test Objects/Test Camera.tscn" id="2"]
 
 [sub_resource type="BoxShape3D" id="1"]
 
