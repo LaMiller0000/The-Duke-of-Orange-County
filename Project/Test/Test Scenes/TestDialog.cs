@@ -3,21 +3,21 @@ using System;
 
 public partial class TestDialog : Node2D
 {
-	// Called when the node enters the scene tree for the first time.
-
-	private bool talk = false;
+	
 	private int talkCount = 0;
 	private int charCount = 0;
 	private string test;
 	[Export] private int maxCount = 3;
-	[Export] public string[] textArray = { "this is a test", "this is a second test", "this is the last test" };
+	[Export] public string[] textArray = { "this is a test", "this is a second test", "this is the third test", "this is the last test" };
 
 	private Panel panel;
 	private Label text;
 	private Timer timer;
 
+	
 	public override void _Ready()
 	{
+		maxCount = textArray.Length;
 		panel = new Panel();
 		text = new Label();
 		panel.Size = new Vector2(200, 200);
@@ -37,6 +37,14 @@ public partial class TestDialog : Node2D
 
 	private void SetTextArrayCount()
 	{
+		if (!timer.IsStopped())
+		{
+			timer.Stop();
+			text.Text += " =>";
+			charCount = 0;
+			talkCount++;
+		}
+
 		test = textArray[talkCount];
 	}
 
@@ -46,10 +54,7 @@ public partial class TestDialog : Node2D
 		charCount++;
 		if (charCount >= test.Length)
 		{
-			timer.Stop();
-			text.Text += " =>";
-			charCount = 0;
-			talkCount++;
+
 			SetTextArrayCount();
 		}
 	}
@@ -58,14 +63,25 @@ public partial class TestDialog : Node2D
 	{
 		if (Input.IsActionJustPressed("ui_accept"))
 		{
-			if (talkCount < maxCount)
+			if (timer.IsStopped())
 			{
-				timer.Start();
+				if (talkCount < maxCount)
+				{
+					timer.Start();
+				}
+				if (talkCount != 0)
+				{
+					text.Text = text.Text.Replace(" =>", "");
+					text.Text += "\n";
+				}	
 			}
-			if (talkCount != 0)
+			else
 			{
-				text.Text = text.Text.Replace(" =>", "");
-				text.Text += "\n";
+				for (int i = charCount; i < test.Length; i++)
+				{
+					text.Text += test[i];
+				}
+				SetTextArrayCount();
 			}
 		}
 	}
