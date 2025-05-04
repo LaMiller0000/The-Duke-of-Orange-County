@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://dgy67j71dqkip"]
+[gd_scene load_steps=13 format=3 uid="uid://dgy67j71dqkip"]
 
 [ext_resource type="PackedScene" uid="uid://b6bu7uoeohwdj" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
+[ext_resource type="Script" path="res://Test/Test Scripts/TestScene1.cs" id="1_30i1i"]
 [ext_resource type="Script" path="res://Test/Test Scenes/Test Scene 1.gd" id="1_s7gco"]
-[ext_resource type="PackedScene" uid="uid://c24phtqlr7i0c" path="res://Test/Test Scenes/test_magic_select.tscn" id="2_dl6ap"]
-[ext_resource type="Script" path="res://Test/Test Scripts/MagicUiSelection.cs" id="3_0ir6j"]
+[ext_resource type="PackedScene" path="res://Test/Test Scenes/test_magic_select.tscn" id="2_dl6ap"]
 [ext_resource type="PackedScene" uid="uid://m3oq4aiffqf7" path="res://Test/Test Scenes/TestMagicMiniGame.tscn" id="3_fsodh"]
+[ext_resource type="Script" path="res://Test/Test Scenes/MousePosition.cs" id="6_6cobe"]
 
 [sub_resource type="BoxShape3D" id="1"]
 
@@ -46,7 +47,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.72823, 0)
 light_energy = 10.0
 
 [node name="Target" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -11)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -11)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Target"]
 shape = SubResource("CapsuleShape3D_1bp0u")
@@ -55,12 +56,11 @@ shape = SubResource("CapsuleShape3D_1bp0u")
 mesh = SubResource("CapsuleMesh_ykwwk")
 
 [node name="Node" type="Node" parent="."]
-script = ExtResource("3_0ir6j")
-MiniGame = ExtResource("3_fsodh")
+script = ExtResource("1_30i1i")
 Selection = ExtResource("2_dl6ap")
+MiniGame = ExtResource("3_fsodh")
 
 [node name="Node2" type="Node2D" parent="."]
-
-[node name="MagicMelleStateMachine" type="Node" parent="."]
+script = ExtResource("6_6cobe")
 
 [editable path="Root"]

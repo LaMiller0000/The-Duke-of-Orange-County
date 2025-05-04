@@ -7,16 +7,19 @@ public partial class TestScene1 : Node
 	
 	[Export] public PackedScene MiniGame;
 	
+	
 	private TestMagicSelect _selectScene;
 
 	private MagicMiniGame _magicMiniGame;
+	
+	private MousePosition _mousePosition;
 	
 	private int _selectionNumber;
 	
 	private int _miniGameNumber;
 	private int _onScreenNumber {get; set; }
 	private int _onScreenRadius { get; set; }
-
+	
 	public TestScene1()
 	{
 		_onScreenNumber = 3;
@@ -31,6 +34,8 @@ public partial class TestScene1 : Node
 	public override void _Ready()
 	{
 		GetTree().Root.SizeChanged += OnWindowResized;
+		_mousePosition = new MousePosition();
+		AddChild(_mousePosition);
 		AddSelector();
 	}
 	public int getSelectionNumber() => _selectionNumber;
@@ -53,6 +58,7 @@ public partial class TestScene1 : Node
 		_selectScene.QueueFree();
 		_magicMiniGame = MiniGame.Instantiate<MagicMiniGame>();
 		AddChild(_magicMiniGame);
+		_mousePosition.Center();
 		Positioner();
 		if (_magicMiniGame is Node signalEmitter && signalEmitter.HasSignal("OutOfPoints"))
 		{
@@ -74,6 +80,7 @@ public partial class TestScene1 : Node
 	{
 		_selectScene = Selection.Instantiate<TestMagicSelect>();
 		_selectScene.SetCoor(GetWindow().Size - GetWindow().Size / _onScreenNumber);
+		_mousePosition.Center();
 		Positioner();
 		AddChild(_selectScene);
 		if (_selectScene is Node signalEmitter && signalEmitter.HasSignal("Selected"))
@@ -108,6 +115,5 @@ public partial class TestScene1 : Node
 	}
 	public override void _Process(double delta)
 	{
-
 	}
 }
