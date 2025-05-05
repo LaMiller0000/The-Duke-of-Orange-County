@@ -19,7 +19,7 @@ public partial class TestDialogRoot : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_testDialog = new TestDialog(0.1f, txt);
+		_testDialog = new TestDialog(0.1f, txt, new Vector2(300, 300), 24);
 		AddChild(_testDialog);
 	}
 

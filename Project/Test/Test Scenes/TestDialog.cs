@@ -8,11 +8,14 @@ public partial class TestDialog : Node2D
 	private int charCount = 0;
 	private string test;
 	private float _waitTime;
+	private int _fontSize;
+	private Vector2 _textPosition;
+	
 	[Export] private int maxCount;
 	[Export] public string[] textArray = { "this is a test", "this is a second test", "this is the third test", "this is the last test" };
 
 	private Panel panel;
-	private Label text;
+	private RichTextLabel text;
 	private Timer timer;
 
 	public TestDialog()
@@ -20,18 +23,21 @@ public partial class TestDialog : Node2D
 		_waitTime = 0.1f;
 	}
 	
-	public TestDialog(float waitTime, string[] _textArray)
+	public TestDialog(float waitTime, string[] _textArray, Vector2 _position, int _fontSize)
 	{
 		_waitTime = waitTime;
 		textArray = _textArray;
+		_textPosition = _position;
+		this._fontSize = _fontSize;
 	}
 	
 	public override void _Ready()
 	{
 		maxCount = textArray.Length;
 		panel = new Panel();
-		text = new Label();
-		panel.Size = new Vector2(200, 200);
+		text = new RichTextLabel();
+		panel.Size = _textPosition;
+		panel.Position = _textPosition;
 		AddChild(panel);
 		text.Size = panel.Size;
 		panel.AddChild(text);
@@ -42,7 +48,10 @@ public partial class TestDialog : Node2D
 		timer.Timeout += OnTimerTimeout;
 		panel.Visible = true;
 		text.Visible = true;
-
+		Theme theme = new Theme();
+		theme.DefaultFontSize = _fontSize;
+		text.Theme = theme;
+		text.ScrollFollowing = true;
 	}
 
 	private void SetTextArrayCount()
@@ -54,7 +63,7 @@ public partial class TestDialog : Node2D
 			charCount = 0;
 			talkCount++;
 		}
-
+		
 		test = textArray[talkCount];
 	}
 
