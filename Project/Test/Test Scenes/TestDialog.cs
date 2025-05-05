@@ -7,13 +7,24 @@ public partial class TestDialog : Node2D
 	private int talkCount = 0;
 	private int charCount = 0;
 	private string test;
-	[Export] private int maxCount = 3;
+	private float _waitTime;
+	[Export] private int maxCount;
 	[Export] public string[] textArray = { "this is a test", "this is a second test", "this is the third test", "this is the last test" };
 
 	private Panel panel;
 	private Label text;
 	private Timer timer;
 
+	public TestDialog()
+	{
+		_waitTime = 0.1f;
+	}
+	
+	public TestDialog(float waitTime, string[] _textArray)
+	{
+		_waitTime = waitTime;
+		textArray = _textArray;
+	}
 	
 	public override void _Ready()
 	{
@@ -25,8 +36,7 @@ public partial class TestDialog : Node2D
 		text.Size = panel.Size;
 		panel.AddChild(text);
 		timer = new Timer();
-		timer.WaitTime = 0.1f;
-		timer.OneShot = false; // Ensure it loops if needed
+		timer.WaitTime = _waitTime;
 		AddChild(timer);
 		SetTextArrayCount();
 		timer.Timeout += OnTimerTimeout;
