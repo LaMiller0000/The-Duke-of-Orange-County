@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b063rw0f77r6k"]
+
+[ext_resource type="Script" path="res://Test/Test Objects/TestRPG_CardScene.cs" id="1_oiohq"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_oiohq")
