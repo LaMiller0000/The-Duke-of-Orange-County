@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://dgy67j71dqkip"]
+[gd_scene load_steps=16 format=3 uid="uid://dgy67j71dqkip"]
 
 [ext_resource type="PackedScene" uid="uid://b6bu7uoeohwdj" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
 [ext_resource type="Script" path="res://Test/Test Scenes/Test Scene 1.gd" id="1_s7gco"]
 [ext_resource type="PackedScene" uid="uid://c24phtqlr7i0c" path="res://Test/Test Scenes/test_magic_select.tscn" id="2_dl6ap"]
 [ext_resource type="Script" path="res://Test/Test Scripts/MagicUiSelection.cs" id="3_0ir6j"]
 [ext_resource type="PackedScene" uid="uid://m3oq4aiffqf7" path="res://Test/Test Scenes/TestMagicMiniGame.tscn" id="3_fsodh"]
+[ext_resource type="Script" path="res://Test/Test Scenes/AreaNumTest1.cs" id="6_uky3d"]
 
 [sub_resource type="BoxShape3D" id="1"]
 
@@ -18,9 +19,15 @@ bump_strength = 16.1
 albedo_texture = SubResource("4")
 normal_enabled = true
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_kwr4t"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1bp0u"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ykwwk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dyvhn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_f78gd"]
 
 [node name="Root" type="Node3D"]
 script = ExtResource("1_s7gco")
@@ -38,20 +45,54 @@ mesh = SubResource("2")
 material = SubResource("3")
 
 [node name="Root" parent="." node_paths=PackedStringArray("target") instance=ExtResource("1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 25.251)
 target = NodePath("../Target")
+
+[node name="Sphere" type="Area3D" parent="Root"]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 4.96164, -5.97344)
+script = ExtResource("6_uky3d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Root/Sphere"]
+shape = SubResource("SphereShape3D_kwr4t")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.72823, 0)
 light_energy = 10.0
 
-[node name="Target" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -11)
+[node name="Target" type="StaticBody3D" parent="." groups=["TestGroup1"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -41.2188)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Target"]
 shape = SubResource("CapsuleShape3D_1bp0u")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="Target/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_ykwwk")
+
+[node name="Wall" type="StaticBody3D" parent="." groups=["TestGroup2"]]
+transform = Transform3D(20, 0, 0, 0, 10, 0, 0, 0, 1, 0, 1, -2.79747)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Wall"]
+shape = SubResource("BoxShape3D_dyvhn")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Wall/CollisionShape3D"]
+mesh = SubResource("BoxMesh_f78gd")
+
+[node name="Target2" type="StaticBody3D" parent="." groups=["TestGroup1"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.30011, 1, -39.045)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Target2"]
+shape = SubResource("CapsuleShape3D_1bp0u")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Target2/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_ykwwk")
+
+[node name="Target3" type="StaticBody3D" parent="." groups=["TestGroup1"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -5.97344)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Target3"]
+shape = SubResource("CapsuleShape3D_1bp0u")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Target3/CollisionShape3D"]
 mesh = SubResource("CapsuleMesh_ykwwk")
 
 [node name="Node" type="Node" parent="."]
@@ -62,5 +103,7 @@ Selection = ExtResource("2_dl6ap")
 [node name="Node2" type="Node2D" parent="."]
 
 [node name="MagicMelleStateMachine" type="Node" parent="."]
+
+[connection signal="body_entered" from="Root/Sphere" to="Root/Sphere" method="_on_body_entered"]
 
 [editable path="Root"]

@@ -17,7 +17,7 @@ public partial class moveMath : Node
 	public float acceleration(float distance, float xOffSet = 10, float yOffSet = 10, float intensity = 2) => (float)Math.Cbrt(distance - xOffSet) * intensity + yOffSet;
 
 	// calculates the distance between two points
-	public int distanceCalc(Vector3 point1, Vector3 point2) => (int)Mathf.Sqrt(Mathf.Pow((point1.X - point2.X), 2) + Mathf.Pow((point1.Y - point2.Y), 2) + Mathf.Pow((point1.Z - point2.Z), 2));
+	public int distanceCalc(Vector3 point1, Vector3 point2) => (int)Math.Sqrt(Math.Pow((point1.X - point2.X), 2) + Math.Pow((point1.Y - point2.Y), 2) + Math.Pow((point1.Z - point2.Z), 2));
 
 	// determins if the player is moving vertically more than horizontally & diagonal 
 	public bool jumpCalc(Vector3 point1, Vector3 point2)
