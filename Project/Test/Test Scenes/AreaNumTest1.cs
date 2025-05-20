@@ -6,78 +6,90 @@ public partial class AreaNumTest1 : Area3D
 {
 	// Called when the node enters the scene tree for the first time.
 	private int count = 0;
-	private int minLength = 60;
+	public int radius { get; set; }
+	private int minLength;
 	private RayCast3D rayCast;
 	private moveMath moveMath;
+	public Node3D target;
+
+	[Signal]
+	public delegate void TargetRecievedEventHandler(Node3D t);
 
 	public override void _Ready()
 	{
-		// Connect the body_entered signal
+		GD.Print("4");
 		BodyEntered += OnBodyEntered;
+	}
+
+	public AreaNumTest1()
+	{
+		radius = 10;
+		minLength = 20;
+	}
+
+	public AreaNumTest1(int r)
+	{
+		radius = r;
+		minLength = 2 * r;
+	}
+
+	public void setRadius(int r)
+	{
+		radius = r;
+	}
+
+	public Node3D getTarget()
+	{
+
+		return target;
 	}
 
 	private void OnBodyEntered(Node3D body)
 	{
-		GD.Print("Body entered: " + body.Name);
-		
+		GD.Print("OnBodyEntered");
+		//minLength = radius;
 		var overlappingBodies = GetOverlappingBodies();
-		GD.Print("Overlapping bodies count: " + overlappingBodies.Count);
 		foreach (var nodies in overlappingBodies)
 		{
-			GD.Print("Checking body: " + nodies.Name);
 			if (nodies.IsInGroup("TestGroup1"))
 			{
-				GD.Print("Found body in TestGroup1");
-				
-				// Create the raycast
 				rayCast = new RayCast3D();
 				AddChild(rayCast);
-				
-				// Setup raycast properties
 				rayCast.GlobalPosition = GlobalPosition;
-				// This is the critical fix - target position needs to be direction vector
 				Vector3 direction = nodies.GlobalPosition - this.GlobalPosition;
 				rayCast.TargetPosition = direction;
 				rayCast.CollisionMask = uint.MaxValue;
-				rayCast.CollideWithAreas = true;  
+				rayCast.CollideWithAreas = true;
 				rayCast.CollideWithBodies = true;
+				rayCast.ExcludeParent = true;
 				rayCast.Enabled = true;
-				
-				// Process one frame to allow raycast to update
 				rayCast.ForceRaycastUpdate();
-				
-				GD.Print("Raycast from: " + rayCast.GlobalPosition);
-				GD.Print("Raycast to: " + (rayCast.GlobalPosition + rayCast.TargetPosition));
-				GD.Print("Is colliding: " + rayCast.IsColliding());
-				
-				if (rayCast.IsColliding())
+				Node3D collider = rayCast.GetCollider() as Node3D;
+				if (rayCast.IsColliding() && collider.IsInGroup("TestGroup1"))
 				{
-					Node3D collider = rayCast.GetCollider() as Node3D;
-					GD.Print("Raycast hit: " + (collider != null ? collider.Name : "unknown"));
-				}
-				
-				// Create and use distance calculator
-				moveMath = new moveMath();
-				int distance = moveMath.distanceCalc(nodies.GlobalPosition, GlobalPosition);
-				GD.Print("Distance: " + distance);
-				
-				if (distance < minLength)
-				{
-					minLength = distance;
-					GD.Print("New minimum length: " + minLength);
+					moveMath = new moveMath();
+					int distance = moveMath.distanceCalc(nodies.GlobalPosition, GlobalPosition);
+					if (distance < minLength)
+					{
+						minLength = distance;
+						target = nodies;
+						GD.Print("New minimum length: " + minLength);
+					}
+					
+					//moveMath.QueueFree();
 				}
 				
 				++count;
-				
-				// Clean up
-				moveMath.QueueFree();
 				rayCast.QueueFree();
-				
 			}
+			
+			GD.Print(nodies.ToString());
 		}
-		
-		GD.Print("Minimum length: " + minLength);
-		GD.Print("Total count: " + count);
+
+		GD.Print("OnBodyEntered before emmision");
+		GD.Print(target);
+		EmitSignal("TargetRecieved", target);
 		count = 0;
+		//getTarget();
 	}
 }

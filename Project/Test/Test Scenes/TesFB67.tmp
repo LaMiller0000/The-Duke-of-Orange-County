@@ -1,8 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://dgy67j71dqkip"]
+[gd_scene load_steps=14 format=3 uid="uid://dgy67j71dqkip"]
 
 [ext_resource type="PackedScene" uid="uid://b6bu7uoeohwdj" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
-[ext_resource type="Script" path="res://Test/Test Scenes/TestingScene1.cs" id="1_ah3rf"]
-[ext_resource type="PackedScene" uid="uid://dnjck8cyjhl2s" path="res://Test/Test Objects/area_3d.tscn" id="2_5xs5a"]
+[ext_resource type="Script" path="res://Test/Test Scenes/Test Scene 1.gd" id="1_wodsq"]
 [ext_resource type="PackedScene" uid="uid://c24phtqlr7i0c" path="res://Test/Test Scenes/test_magic_select.tscn" id="2_dl6ap"]
 [ext_resource type="Script" path="res://Test/Test Scripts/MagicUiSelection.cs" id="3_0ir6j"]
 [ext_resource type="PackedScene" uid="uid://m3oq4aiffqf7" path="res://Test/Test Scenes/TestMagicMiniGame.tscn" id="3_fsodh"]
@@ -28,8 +27,7 @@ normal_enabled = true
 [sub_resource type="BoxMesh" id="BoxMesh_f78gd"]
 
 [node name="Root" type="Node3D"]
-script = ExtResource("1_ah3rf")
-scene = ExtResource("2_5xs5a")
+script = ExtResource("1_wodsq")
 
 [node name="Floor" type="Node" parent="."]
 
@@ -43,16 +41,16 @@ shape = SubResource("1")
 mesh = SubResource("2")
 material = SubResource("3")
 
-[node name="Root" parent="." instance=ExtResource("1")]
+[node name="Root" parent="." node_paths=PackedStringArray("target") instance=ExtResource("1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 25.251)
-visible = true
+target = NodePath("../Target")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.72823, 0)
 light_energy = 10.0
 
 [node name="Target" type="StaticBody3D" parent="." groups=["TestGroup1"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.440464)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -41.2188)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Target"]
 shape = SubResource("CapsuleShape3D_1bp0u")
@@ -70,7 +68,7 @@ shape = SubResource("BoxShape3D_dyvhn")
 mesh = SubResource("BoxMesh_f78gd")
 
 [node name="Target2" type="StaticBody3D" parent="." groups=["TestGroup1"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.30011, 1, 17.9313)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.30011, 1, -39.045)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Target2"]
 shape = SubResource("CapsuleShape3D_1bp0u")
@@ -95,7 +93,5 @@ Selection = ExtResource("2_dl6ap")
 [node name="Node2" type="Node2D" parent="."]
 
 [node name="MagicMelleStateMachine" type="Node" parent="."]
-
-[connection signal="ready" from="." to="." method="_ready"]
 
 [editable path="Root"]
