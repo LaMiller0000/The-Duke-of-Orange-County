@@ -53,34 +53,41 @@ public partial class AreaNumTest1 : Area3D
 		{
 			if (nodies.IsInGroup("TestGroup1"))
 			{
-				rayCast = new RayCast3D();
-				AddChild(rayCast);
-				rayCast.GlobalPosition = GlobalPosition;
-				Vector3 direction = nodies.GlobalPosition - this.GlobalPosition;
-				rayCast.TargetPosition = direction;
-				rayCast.CollisionMask = uint.MaxValue;
-				rayCast.CollideWithAreas = true;
-				rayCast.CollideWithBodies = true;
-				rayCast.ExcludeParent = true;
-				rayCast.Enabled = true;
-				rayCast.ForceRaycastUpdate();
-				Node3D collider = rayCast.GetCollider() as Node3D;
-				if (rayCast.IsColliding() && collider.IsInGroup("TestGroup1"))
+				float dx = nodies.GlobalPosition.X - body.GlobalPosition.X;
+				float dy = nodies.GlobalPosition.Y - body.GlobalPosition.Y;
+				double angle = Math.Atan2(dx, dy);
+				if (angle < 0) { angle += 2.0 * Math.PI;}
+
+				if (angle <= (5 * Math.PI) / 6 && angle >= Math.PI / 6)
 				{
-					moveMath = new moveMath();
-					int distance = moveMath.distanceCalc(nodies.GlobalPosition, GlobalPosition);
-					if (distance < minLength)
+					rayCast = new RayCast3D();
+					AddChild(rayCast);
+					rayCast.GlobalPosition = GlobalPosition;
+					Vector3 direction = nodies.GlobalPosition - this.GlobalPosition;
+					rayCast.TargetPosition = direction;
+					rayCast.CollisionMask = uint.MaxValue;
+					rayCast.CollideWithAreas = true;
+					rayCast.CollideWithBodies = true;
+					rayCast.ExcludeParent = true;
+					rayCast.Enabled = true;
+					rayCast.ForceRaycastUpdate();
+					Node3D collider = rayCast.GetCollider() as Node3D;
+					if (rayCast.IsColliding() && collider.IsInGroup("TestGroup1"))
 					{
-						minLength = distance;
-						target = nodies;
-						GD.Print("New minimum length: " + minLength);
-					}
+						moveMath = new moveMath();
+						int distance = moveMath.distanceCalc(nodies.GlobalPosition, GlobalPosition);
+						if (distance < minLength)
+						{
+							minLength = distance;
+							target = nodies;
+							GD.Print("New minimum length: " + minLength);
+						}
 					
-					//moveMath.QueueFree();
+						//moveMath.QueueFree();
+					}
+					++count;
+					rayCast.QueueFree();
 				}
-				
-				++count;
-				rayCast.QueueFree();
 			}
 			
 			GD.Print(nodies.ToString());
@@ -90,6 +97,5 @@ public partial class AreaNumTest1 : Area3D
 		GD.Print(target);
 		EmitSignal("TargetRecieved", target);
 		count = 0;
-		//getTarget();
 	}
 }

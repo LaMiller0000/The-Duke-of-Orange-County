@@ -1,8 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://dgy67j71dqkip"]
+[gd_scene load_steps=14 format=3 uid="uid://dgy67j71dqkip"]
 
 [ext_resource type="PackedScene" uid="uid://b6bu7uoeohwdj" path="res://Test/Test Objects/PlayerTestMovement.tscn" id="1"]
 [ext_resource type="Script" path="res://Test/Test Scenes/TestingScene1.cs" id="1_ah3rf"]
-[ext_resource type="PackedScene" uid="uid://dnjck8cyjhl2s" path="res://Test/Test Objects/area_3d.tscn" id="2_5xs5a"]
 [ext_resource type="PackedScene" uid="uid://c24phtqlr7i0c" path="res://Test/Test Scenes/test_magic_select.tscn" id="2_dl6ap"]
 [ext_resource type="Script" path="res://Test/Test Scripts/MagicUiSelection.cs" id="3_0ir6j"]
 [ext_resource type="PackedScene" uid="uid://m3oq4aiffqf7" path="res://Test/Test Scenes/TestMagicMiniGame.tscn" id="3_fsodh"]
@@ -29,7 +28,6 @@ normal_enabled = true
 
 [node name="Root" type="Node3D"]
 script = ExtResource("1_ah3rf")
-scene = ExtResource("2_5xs5a")
 
 [node name="Floor" type="Node" parent="."]
 
@@ -44,7 +42,7 @@ mesh = SubResource("2")
 material = SubResource("3")
 
 [node name="Root" parent="." instance=ExtResource("1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 25.251)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01986, 25.251)
 visible = true
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -70,12 +68,39 @@ shape = SubResource("BoxShape3D_dyvhn")
 mesh = SubResource("BoxMesh_f78gd")
 
 [node name="Target2" type="StaticBody3D" parent="." groups=["TestGroup1"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.30011, 1, 17.9313)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.69989, 1, 9.9313)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Target2"]
 shape = SubResource("CapsuleShape3D_1bp0u")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="Target2/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_ykwwk")
+
+[node name="Target4" type="StaticBody3D" parent="." groups=["TestGroup1"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.69989, 1, 19.9313)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Target4"]
+shape = SubResource("CapsuleShape3D_1bp0u")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Target4/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_ykwwk")
+
+[node name="Target5" type="StaticBody3D" parent="." groups=["TestGroup1"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.30011, 1, 14.9313)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Target5"]
+shape = SubResource("CapsuleShape3D_1bp0u")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Target5/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_ykwwk")
+
+[node name="Target6" type="StaticBody3D" parent="." groups=["TestGroup1"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.69989, 1, 14.9313)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Target6"]
+shape = SubResource("CapsuleShape3D_1bp0u")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="Target6/CollisionShape3D"]
 mesh = SubResource("CapsuleMesh_ykwwk")
 
 [node name="Target3" type="StaticBody3D" parent="." groups=["TestGroup1"]]
