@@ -3,7 +3,7 @@ using System;
 
 public partial class PlayerTestMovement : CharacterBody3D
 {
-	private SpringArm3D springArm;
+	public SpringArm3D springArm;
 	private Node3D eyes;
 	private Node3D rotationModel;
 	private float gravity = 9.8f;
@@ -79,7 +79,7 @@ public partial class PlayerTestMovement : CharacterBody3D
 				case State.TARGETING:
 					if (target == null)
 					{
-						//STATED = State.FREECAM;
+						STATED = State.FREECAM;
 					}
 					else
 					{
@@ -108,6 +108,8 @@ public partial class PlayerTestMovement : CharacterBody3D
 		MoveAndSlide();
 		springArm.Position = Position;
 	}
+	
+	public double GetSpringArmRotation() => springArm.GlobalRotation.Y;
 
 	public void TargetRotationSet()
 	{

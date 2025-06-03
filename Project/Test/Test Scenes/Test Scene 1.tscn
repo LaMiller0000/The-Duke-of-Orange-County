@@ -68,7 +68,7 @@ shape = SubResource("BoxShape3D_dyvhn")
 mesh = SubResource("BoxMesh_f78gd")
 
 [node name="Target2" type="StaticBody3D" parent="." groups=["TestGroup1"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.69989, 1, 9.9313)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 1, 14.931)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Target2"]
 shape = SubResource("CapsuleShape3D_1bp0u")
@@ -77,7 +77,7 @@ shape = SubResource("CapsuleShape3D_1bp0u")
 mesh = SubResource("CapsuleMesh_ykwwk")
 
 [node name="Target4" type="StaticBody3D" parent="." groups=["TestGroup1"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.69989, 1, 19.9313)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 1, 14.931)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Target4"]
 shape = SubResource("CapsuleShape3D_1bp0u")
@@ -86,7 +86,7 @@ shape = SubResource("CapsuleShape3D_1bp0u")
 mesh = SubResource("CapsuleMesh_ykwwk")
 
 [node name="Target5" type="StaticBody3D" parent="." groups=["TestGroup1"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.30011, 1, 14.9313)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 1, 14.931)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Target5"]
 shape = SubResource("CapsuleShape3D_1bp0u")
@@ -95,7 +95,7 @@ shape = SubResource("CapsuleShape3D_1bp0u")
 mesh = SubResource("CapsuleMesh_ykwwk")
 
 [node name="Target6" type="StaticBody3D" parent="." groups=["TestGroup1"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.69989, 1, 14.9313)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 1, 14.931)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Target6"]
 shape = SubResource("CapsuleShape3D_1bp0u")
