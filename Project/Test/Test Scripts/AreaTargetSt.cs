@@ -12,10 +12,10 @@ public partial class AreaTargetSt : Node
 	[Export] public PackedScene scene;
 	private AreaNumTest1 _areaNum;
 	private Node3D _target;
-	private double _maxAngle = 5 * Math.PI / 6;//(5 * Math.PI) / 6;
-	private double _minAngle = Math.PI / 6 ;//Math.PI / 6;
-	private double _leftMaxAngle = Math.PI;
-	private double _rightMinAngle = Math.PI;
+	private double _maxAngle = 7 * Math.PI / 6;//(5 * Math.PI) / 6;
+	private double _minAngle = 11 * Math.PI / 6 ;//Math.PI / 6;
+	private double _leftMaxAngle = 3 * Math.PI / 2;
+	private double _rightMinAngle = 3 * Math.PI / 2;
 	private int radius {get; set;}
 
 	public AreaTargetSt()
@@ -75,13 +75,13 @@ public partial class AreaTargetSt : Node
 
 	public void LeftTest()
 	{
-		//MakeNumTest(_target, (2 * Math.PI)/3, _maxAngle);
+		MakeNumTest(_target, _leftMaxAngle, _maxAngle);
 		//MakeNumTest(null, _minAngle + characterBody.GlobalRotation.Y, _maxAngle + characterBody.GlobalRotation.Y);	
 	}
 
 	public void RightTest()
 	{
-		MakeNumTest(_target, _minAngle + (double)characterBody.Get("GetSpringArmRotation()"), _rightMinAngle + (double)characterBody.Get("GetSpringArmRotation()") );
+		MakeNumTest(_target, _minAngle, _leftMaxAngle);
 	}
 
 	private void MakeNumTest(Node3D _target, double _minAngle, double _maxAngle)
