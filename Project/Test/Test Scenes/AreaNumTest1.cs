@@ -71,7 +71,7 @@ public partial class AreaNumTest1 : Area3D
 	// Helper method to normalize angle to [0, 2π]
 	private double NormalizeAngle(double angle)
 	{
-		return Math.Abs(angle % 2 * Math.PI);
+		return Math.Abs(angle % (2 * Math.PI));
 	}
 
 	// Helper method to check if angle is between min and max (handles wrapping)
@@ -103,7 +103,7 @@ public partial class AreaNumTest1 : Area3D
 			float dx = direction3D.X;
 			float dz = direction3D.Z;
 			double absoluteAngleToTarget = Math.Atan2(dz, dx);
-			Math.Abs(absoluteAngleToTarget % 2 * Math.PI);
+			Math.Abs(absoluteAngleToTarget % (2 * Math.PI));
 			double adjustedMinAngle = NormalizeAngle(minAngle + _springArmRotation);
 			double adjustedMaxAngle = NormalizeAngle(maxAngle + _springArmRotation);
 			bool isInRange = IsAngleBetween(absoluteAngleToTarget, adjustedMinAngle, adjustedMaxAngle);

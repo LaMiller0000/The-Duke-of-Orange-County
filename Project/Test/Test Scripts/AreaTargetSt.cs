@@ -39,33 +39,42 @@ public partial class AreaTargetSt : Node
 
 	public override void _Input(InputEvent @event)
 	{
+		int currentState = (int)characterBody.Get("STATED");
+	
 		if (Input.IsActionJustReleased("ui_accept"))
 		{
-			GD.Print("Player State = " + characterBody.Get("STATED"));
-			if ((int)characterBody.Get("STATED") == 1)
+			if (currentState == 1)
 			{
+				// Toggle from state 1 back to state 0
+				GD.Print("Player State = " + currentState + " -> Toggling to 0");
+				characterBody.Set("STATED", 0);
 				_target = null;
 				NormalTest();
-				//characterBody.Set("STATED", 0);
 			}
-			else if ((int)characterBody.Get("STATED") == 0)
+			else if (currentState == 0)
 			{
+				// Toggle from state 0 to state 1
+				GD.Print("Player State = " + currentState + " -> Toggling to 1");
 				characterBody.Set("STATED", 1);
+				DeleteTest();
 			}
 		}
-		else if (Input.IsActionJustReleased("ui_left") && (int)characterBody.Get("STATED") == 0 && _target != null)
+		else if (Input.IsActionJustReleased("ui_left") && currentState == 0 && _target != null)
 		{
 			GD.Print("Left Test");
 			LeftTest();
 		}
-		else if (Input.IsActionJustReleased("ui_right") && (int)characterBody.Get("STATED") == 0 && _target != null)
+		else if (Input.IsActionJustReleased("ui_right") && currentState == 0 && _target != null)
 		{
 			GD.Print("Right Test");
-			RightTest();			
+			RightTest();         
 		}
-		
 	}
 
+	public void DeleteTest()
+	{
+		_areaNum.QueueFree();
+	}
 	public void NormalTest()
 	{
 		MakeNumTest(null, _minAngle, _maxAngle);
