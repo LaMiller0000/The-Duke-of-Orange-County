@@ -12,10 +12,10 @@ public partial class AreaTargetSt : Node
 	[Export] public PackedScene scene;
 	private AreaNumTest1 _areaNum;
 	private Node3D _target;
-	private double _maxAngle = 7 * Math.PI / 6;//(5 * Math.PI) / 6;
-	private double _minAngle = 11 * Math.PI / 6 ;//Math.PI / 6;
-	private double _leftMaxAngle = 3 * Math.PI / 2;
-	private double _rightMinAngle = 3 * Math.PI / 2;
+	private double _maxAngle = Math.PI;//(5 * Math.PI) / 6;
+	private double _minAngle = 0;//Math.PI / 6;
+	private double _leftMaxAngle = Math.PI / 2;
+	private double _rightMinAngle = Math.PI / 2;
 	private int radius {get; set;}
 
 	public AreaTargetSt()
