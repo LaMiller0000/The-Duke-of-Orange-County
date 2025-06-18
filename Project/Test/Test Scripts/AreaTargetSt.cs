@@ -123,6 +123,10 @@ public partial class AreaTargetSt : Node
 			characterBody.Set("target", target);
 			characterBody.Set("STATED", 0);
 		}
+		else
+		{
+			characterBody.Set("STATED", 1);
+		}
 		_target = target;
 		_areaNum.QueueFree();
 	}
